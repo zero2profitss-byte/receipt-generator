@@ -2,23 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Zero to Profits Receipt Generator</title>
+  <title>ZERO2PROFIT Receipt Generator</title>
   <style>
-    :root {
-      --light-green: #a8d5ba;
-      --dark-green: #3b7a57;
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #000; /* Black background */
+      color: #39FF14; /* Neon green text */
+      padding: 20px;
+      text-align: center;
     }
-    body { font-family: Arial, sans-serif; background-color: var(--light-green); color: var(--dark-green); padding: 20px; }
-    h1 { text-align: center; }
-    .container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    label { display: block; margin-top: 10px; }
-    input { width: 100%; padding: 8px; margin-top: 5px; }
-    button { margin-top: 15px; padding: 10px; width: 100%; background: var(--dark-green); color: #fff; border: none; cursor: pointer; border-radius: 5px; }
-    #receipt { margin-top: 20px; padding: 15px; border: 2px solid var(--dark-green); display: none; }
+    h1 {
+      color: #39FF14;
+      margin-bottom: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #39FF14;
+    }
+    label { display: block; margin-top: 10px; text-align: left; }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #39FF14;
+      background: #000;
+      color: #39FF14;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background: #39FF14;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover { background: #00FF66; }
+    #receipt {
+      margin-top: 20px;
+      padding: 15px;
+      border: 2px dashed #39FF14;
+      white-space: pre; /* Keeps receipt formatting */
+      text-align: left;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>Zero to Profits Receipt Generator</h1>
+  <h1>ZERO2PROFIT Receipt Generator</h1>
   <div class="container">
     <label>Item Name:</label>
     <input type="text" id="item">
@@ -38,18 +75,31 @@
       let price = parseFloat(document.getElementById('price').value);
       let qty = parseInt(document.getElementById('qty').value);
       if(!item || isNaN(price) || isNaN(qty)){ alert("Fill all fields."); return; }
-      let total = price * qty;
+      let subtotal = price * qty;
+      let tax = subtotal * 0.06; // 6% tax
+      let total = subtotal + tax;
       let today = new Date().toLocaleDateString();
-      let receiptHTML = `
-        <h2>Receipt</h2>
-        <p>Date: ${today}</p>
-        <p>Item: ${item}</p>
-        <p>Price: $${price.toFixed(2)}</p>
-        <p>Quantity: ${qty}</p>
-        <h3>Total: $${total.toFixed(2)}</h3>
-      `;
+
+      let receiptText = `
+===========================
+       ZERO2PROFIT
+    Official Receipt Demo
+---------------------------
+Date: ${today}
+---------------------------
+Item: ${item}
+Qty: ${qty}
+Price: $${price.toFixed(2)}
+---------------------------
+Subtotal: $${subtotal.toFixed(2)}
+Tax (6%): $${tax.toFixed(2)}
+TOTAL:    $${total.toFixed(2)}
+===========================
+      THANK YOU!
+===========================`;
+
       let receiptBox = document.getElementById('receipt');
-      receiptBox.innerHTML = receiptHTML;
+      receiptBox.innerText = receiptText;
       receiptBox.style.display = "block";
     }
 
@@ -58,6 +108,7 @@
       let doc = new jsPDF();
       let receiptContent = document.getElementById('receipt').innerText;
       if(receiptContent === ""){ alert("Generate receipt first."); return; }
+      doc.setFont("courier", "normal");
       doc.text(receiptContent, 10, 10);
       doc.save("receipt.pdf");
     }
