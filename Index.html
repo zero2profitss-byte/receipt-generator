@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero2Profits Receipt Generator</title>
+  <style>
+    body {
+      font-family: "Courier New", Courier, monospace;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .generator {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    h1 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: left;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1b5e20;
+    }
+    .receipt {
+      background: white;
+      margin-top: 20px;
+      padding: 20px;
+      text-align: left;
+      border: 1px solid #000;
+      font-size: 14px;
+    }
+    .receipt h2 {
+      text-align: center;
+      margin: 0 0 10px 0;
+    }
+    .receipt p {
+      margin: 5px 0;
+    }
+    .line {
+      border-top: 1px dashed #000;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="generator">
+    <h1>Zero2Profits Receipt Generator</h1>
+    
+    <label for="store">Select Store:</label>
+    <select id="store">
+      <option value="Saks Fifth Avenue">Saks Fifth Avenue</option>
+      <option value="Apple Store">Apple Store</option>
+      <option value="Louis Vuitton">Louis Vuitton</option>
+      <option value="Nike Factory Store">Nike Factory Store</option>
+      <option value="Gucci">Gucci</option>
+      <option value="Prada">Prada</option>
+      <option value="Rolex">Rolex</option>
+      <option value="Cartier">Cartier</option>
+      <option value="Chrome Hearts">Chrome Hearts</option>
+      <option value="StockX">StockX</option>
+      <option value="Ulta Beauty">Ulta Beauty</option>
+      <option value="Sephora">Sephora</option>
+      <option value="Saint Laurent">Saint Laurent</option>
+      <option value="Sp5der">Sp5der</option>
+      <option value="Foot Locker">Foot Locker</option>
+      <option value="Best Buy">Best Buy</option>
+      <option value="Macy's">Macy's</option>
+    </select>
+    
+    <label for="address">Store Address:</label>
+    <input type="text" id="address" placeholder="Enter store address">
+    
+    <label for="item">Item Name:</label>
+    <input type="text" id="item" placeholder="e.g. Cologne">
+    
+    <label for="price">Price ($):</label>
+    <input type="number" id="price" placeholder="e.g. 100">
+    
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" placeholder="e.g. 1" value="1">
+    
+    <button onclick="generateReceipt()">Generate Receipt</button>
+    
+    <div class="receipt" id="receipt" style="display:none;"></div>
+  </div>
+  
+  <script>
+    function generateReceipt() {
+      const store = document.getElementById("store").value;
+      const address = document.getElementById("address").value;
+      const item = document.getElementById("item").value;
+      const price = parseFloat(document.getElementById("price").value);
+      const quantity = parseInt(document.getElementById("quantity").value);
+      const total = (price * quantity).toFixed(2);
+      const date = new Date().toLocaleString();
+      
+      const receiptHTML = `
+        <h2>${store}</h2>
+        <p>${address}</p>
+        <div class="line"></div>
+        <p><strong>Date:</strong> ${date}</p>
+        <div class="line"></div>
+        <p><strong>Item:</strong> ${item}</p>
+        <p><strong>Price:</strong> $${price.toFixed(2)}</p>
+        <p><strong>Quantity:</strong> ${quantity}</p>
+        <div class="line"></div>
+        <p><strong>Total:</strong> $${total}</p>
+        <div class="line"></div>
+        <p style="text-align:center;">Thank you for shopping!</p>
+      `;
+      
+      const receiptDiv = document.getElementById("receipt");
+      receiptDiv.innerHTML = receiptHTML;
+      receiptDiv.style.display = "block";
+    }
+  </script>
+</body>
+</html>
